@@ -69,18 +69,22 @@ const statusLinks = (arrayObjects) =>{
   const getStatus = extractInfo(arrayObjects);
   const arrayPromises = getStatus.map(object => {
     return fetch(object.href) // Api fecth acceso al http y hago una petición para obtener el url
+    //console.log(object)
     .then((response) => {      
-      const statusText = response.status === 200 ? response.statusText : "Fail"
-      const responseObject = {
-       ...object,
-        status: response.status,
-        message: statusText
+        return {
+          href: object.href,
+          text: (object.text?.slice(0,50)),
+          status: response.status,
+          ok: response.status === 200 ? 'OK' : 'FAIL',
+        };
+      })
+    .catch(()=>{
+      return {
+        href: object.href,
+        text: (object.text.slice(0,50)),
+        status: 'No Estatus',
+        ok: `FAIL ${error.message}`,
       }
-      return responseObject
-     
-    })
-    .catch((error)=>{
-      console.log(error)
     })
   })
    return Promise.all(arrayPromises)

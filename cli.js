@@ -5,7 +5,6 @@ Contiene los argumentos de la linea de comandos
 const path = process.argv[2];
 //console.log(path)
 const option = process.argv[3]; 
-//console.log(option)
 
 
 /* Funcion principal */
