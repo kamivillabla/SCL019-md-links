@@ -84,7 +84,7 @@ const statusLinks = (arrayObjects) =>{
     })
   })
    return Promise.all(arrayPromises)
-   // devuelve una promesa que termina correctamente cuando todas las promesas en el argumento iterable han sido concluídas con éxito
+   //
 
 }
 
