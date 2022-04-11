@@ -46,6 +46,23 @@ const files = (dir) => {
   return listMd; // retorna array con archivos MD
 } 
 
+/* extraer url de archivos, text */
+const extractInfo = (arrayFilesMd) => {    
+  let urls = []; 
+  arrayFilesMd.forEach( (rutaMd) => {  
+    const text  = fs.readFileSync(rutaMd, {encoding: 'utf8'})
+    const arrayLinks = text.match(regExLinkTextUrl);              
+    arrayLinks.forEach( (linkText) => {
+      urls.push({ 
+        'href': linkText.match(regExUrl).toString(),  
+        'text': (linkText.match(regExText) !== null) ? linkText.match(regExText).toString().slice(1,-1) : "No se encontro texto.",
+        'file': rutaMd
+      })
+    })
+    
+  });
+  return urls;
+}
 
 
 
