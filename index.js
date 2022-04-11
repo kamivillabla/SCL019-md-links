@@ -64,6 +64,29 @@ const extractInfo = (arrayFilesMd) => {
   return urls;
 }
 
+/* Recorro el objeto y le entrego status validate */
+const statusLinks = (arrayObjects) =>{
+  const getStatus = extractInfo(arrayObjects);
+  const arrayPromises = getStatus.map(object => {
+    return fetch(object.href) // Api fecth acceso al http y hago una petición para obtener el url
+    .then((response) => {      
+      const statusText = response.status === 200 ? response.statusText : "Fail"
+      const responseObject = {
+       ...object,
+        status: response.status,
+        message: statusText
+      }
+      return responseObject
+     
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  })
+   return Promise.all(arrayPromises)
+   // devuelve una promesa que termina correctamente cuando todas las promesas en el argumento iterable han sido concluídas con éxito
+
+}
 
 
 module.exports = {
