@@ -83,7 +83,7 @@ const statusLinks = (arrayObjects) =>{
         href: object.href,
         text: (object.text.slice(0,50)),
         status: 'No Estatus',
-        ok: `FAIL ${error.message}`,
+        ok: `FAIL`,
       }
     })
   })
@@ -91,7 +91,6 @@ const statusLinks = (arrayObjects) =>{
    //
 
 }
-
 
 module.exports = {
   pathExists,

@@ -1,8 +1,11 @@
 {
-  "name": "md-links",
+  "name": "md-links-kamivillabla",
   "version": "0.1.0",
-  "main": "index.js",
-  "engines": {
+  "main": "./mdLink.js",
+  "bin": {
+    "mdLink": "./cli.js"
+  },
+   "engines": {
     "node": ">=14.x"
   },
   "dependencies": {
@@ -17,8 +20,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kamivillabla/SCL019-md-links"
+    "url": "git+https://github.com/kamivillabla/SCL019-md-links.git"
   },
   "author": "Kamila Villablanca",
-  "license": "ISC"
+  "license": "ISC",
+  "description": " Md-links sirve para buscar links dentro de archivos MD y verificar su status",
+  "bugs": {
+    "url": "https://github.com/kamivillabla/SCL019-md-links/issues"
+  },
+  "homepage": "https://github.com/kamivillabla/SCL019-md-links#readme",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": []
 }
