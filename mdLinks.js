@@ -27,7 +27,7 @@ const functions = require("./index.js");
             console.log(`Analizando la ruta: ${dirAbsolute}`);
             const arrayFilesMd = functions.files(dirAbsolute); // extrae archivos y guarda archivos MD
             const ulrArchivos = functions.extractInfo(arrayFilesMd); // Guarda url de archivos.md y texto, ruta final (aun no esta validado)
-            const validateTrue= functions.statusLinks(arrayFilesMd);// guarda los estados de los links (Ya esta validado)
+            const validateTrue= functions.statusLinks(arrayFilesMd);// guarda los estados de los links
             const stats = getStats(ulrArchivos); // Recorre los links y guarda la cantidad 
             switch(options){ // Segundo parametro
                 case (options = undefined):
