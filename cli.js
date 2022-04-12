@@ -3,8 +3,9 @@ const {mdLinks} = require("./mdLinks.js")
 Contiene los argumentos de la linea de comandos
 */
 const path = process.argv[2];
-//console.log(path)
+// console.log(path) prueba.md
 const option = process.argv[3]; 
+// -- validate or --stats
 
 
 /* Funcion principal */

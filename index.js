@@ -1,14 +1,15 @@
-const fs = require('fs');
-const path = require('path');
-const fetch = require('node-fetch');
+const fs = require('fs');/* Trabaja sistema de archivos computadora */
+const path = require('path');/* Manejador de rutas */
+const fetch = require('node-fetch'); /* Permite usar fetch */
 
-/* Constantes Usadas Reg*/
-const regExLinkTextUrl = /\[(.+)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;                
-const regExText = /\[([^\]]+)]/g;
-const regExUrl = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm;
+/* Constantes Usadas expresion regular*/
+const regExLinkTextUrl = /\[(.+)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig; // url y texto               
+const regExText = /\[([^\]]+)]/g; // solo text
+const regExUrl = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm;// solo url
 
 /* Absoluta o no absoluta */
-const pathAbsolute = (route) => (path.isAbsolute(route) ? (route) : path.resolve(route));
+const pathAbsolute = (route) => (path.isAbsolute(route) ? (route) : path.resolve(route))
+;
 /* Si la ruta existe */
 const pathExists = (route) => fs.existsSync(route);
 
@@ -16,6 +17,8 @@ const pathExists = (route) => fs.existsSync(route);
 const mdFile = (route) => (path.extname(route) === '.md');
 
 /* Si es directorio */
+// statSync se utiliza para devolver información sincrónicamente sobre la ruta de archivo dada.
+// Is directory para verificar si es directorio
 const isDir =(route) =>fs.statSync(route).isDirectory()
 
 /* Leo el contenido del directorio */
@@ -23,12 +26,12 @@ const getDirectoryContent= (routeDir) => fs.readdirSync(routeDir);
                       
 /* Ingresa a la dirección y subcarpetas para extraer archivos MD */
 const files = (dir) => {                                      
-  const statF = fs.statSync(dir); // se utiliza para devolver información sincrónicamente sobre la ruta de archivo dada.
+  const statF = fs.statSync(dir); // Nos devuelve información del archivo
   let array = []; // Almacenamiento archivos
-  if (isDir(dir)) { // Si es un directorio
+  if (isDir(dir)) { // Si es un directorio(carpeta)
     //console.log(filesDir) [ 'link.md', 'link2.md' ]
     let filesDirctorio = getDirectoryContent(dir).map(elem => path.join(dir, elem))
-    //console.log(filesDirctorio) entrega la dirección más elemento y devuelve la dirección completa
+    //console.log(filesDirctorio) junta la dirección con el nombre del elemento para entregar la dirección completa
     filesDirctorio.forEach((elem)=>{
       if(fs.statSync(elem).isFile()){ 
         array.push(elem);
@@ -38,7 +41,7 @@ const files = (dir) => {
       }
       // Si la dirección ingresada es un archivo
     })} else if (statF.isFile()) { 
-    array.push(dir.toString()); // Pusheo la info convertida en cadena de texto
+    array.push(dir.toString()); // Pusheo la info convertida
   }else{
     console.log('Ruta indeterminada')
   }
@@ -47,11 +50,12 @@ const files = (dir) => {
 } 
 
 /* extraer url de archivos, text */
-const extractInfo = (arrayFilesMd) => {    
+const extractInfo = (arrayFilesMd) => { 
   let urls = []; 
-  arrayFilesMd.forEach( (rutaMd) => {  
+  arrayFilesMd.forEach( (rutaMd) => {  // recorro archivos.md   
     const text  = fs.readFileSync(rutaMd, {encoding: 'utf8'})
-    const arrayLinks = text.match(regExLinkTextUrl);              
+    const arrayLinks = text.match(regExLinkTextUrl);    
+    // Objeto por cada url          
     arrayLinks.forEach( (linkText) => {
       urls.push({ 
         'href': linkText.match(regExUrl).toString(),  
@@ -64,7 +68,7 @@ const extractInfo = (arrayFilesMd) => {
   return urls;
 }
 
-/* Recorro el objeto y le entrego status validate */
+/* Recorro el objeto de status */
 const statusLinks = (arrayObjects) =>{
   const getStatus = extractInfo(arrayObjects);
   const arrayPromises = getStatus.map(object => {
@@ -73,7 +77,7 @@ const statusLinks = (arrayObjects) =>{
     .then((response) => {      
         return {
           href: object.href,
-          text: (object.text?.slice(0,50)),
+          text: (object.text.slice(0,50)),
           status: response.status,
           ok: response.status === 200 ? 'OK' : 'FAIL',
         };
@@ -87,7 +91,7 @@ const statusLinks = (arrayObjects) =>{
       }
     })
   })
-   return Promise.all(arrayPromises)
+   return Promise.all(arrayPromises) // Devuelve una promesa que termina correctamente cuando todas las demás promesas se hayan cumplido
    //
 
 }
